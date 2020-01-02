@@ -10,7 +10,8 @@ class Order < ApplicationRecord
         id: cart_item.id,
         item_id: item.id,
         name: item.name,
-        price: item.price
+        price: item.price,
+        quantity: cart_item.quantity
       }
     end
   end

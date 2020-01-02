@@ -5,3 +5,22 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+user = User.create(
+  username: "Eme",
+  password: "eme"
+)
+
+order = Order.create(user_id: user.id)
+
+item = Item.create(
+  name: "Yarn of the Ages",
+  price: 9.99
+)
+
+  CartItem.create(
+    order_id: order.id,
+    item_id: item.id,
+    quantity: 2
+  )
+
+puts "Seeded."

@@ -5,7 +5,7 @@ class User < ApplicationRecord
   def cart
     #grabs most recent cart (ex. the only open order)
     open_cart = self.orders.last
-    cart = {
+    {
       id: open_cart.id,
       items: open_cart.items_in_cart
     }
