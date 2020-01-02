@@ -1,9 +1,15 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authorized, only: [:create, :show]
+  skip_before_action :authorized, only: [:create, :index, :show]
+  before_action :find_user, only: [:show, :update, :destroy]
 
+  # TODO: This is just for dev purposes
+  def index
+    render json: UserSerializer.new(User.all)
+  end
+
+  # TODO: This is just for dev purposes
   def show
-    @user = User.find(params[:id])
-    render json: { user: UserSerializer.new(@user)}
+    render json: UserSerializer.new(@user)
   end
 
   def profile
@@ -23,7 +29,25 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def update
+    @user.update_attributes(user_params)
+    if @user.save
+      render json: UserSerializer.new(@user)
+    else
+      render json: { error: 'failed to update user' }, status: :not_acceptable
+    end
+  end
+
+  def destroy
+    @user.destroy
+    render json: { success: true, message: 'user deleted' }
+  end
+
   private
+
+  def find_user
+    @user = User.find(params[:id])
+  end
 
   def user_params
     params.require(:user).permit(:username, :password, :bio, :avatar)

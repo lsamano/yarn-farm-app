@@ -5,9 +5,10 @@ class User < ApplicationRecord
   def cart
     #grabs most recent cart (ex. the only open order)
     open_cart = self.orders.last
+    # OrderSerializer.new(open_cart)
     {
       id: open_cart.id,
-      items: open_cart.items_in_cart
+      items_in_cart: open_cart.items_in_cart
     }
   end
 end
